@@ -1,14 +1,14 @@
-const { UserInputError } = require("apollo-server-express");
-const mongoose = require("mongoose");
+const { UserInputError } = require('apollo-server-express');
+const mongoose = require('mongoose');
 
-const GraphQLDate = require("./date.scalar");
-const Skill = require("../model/skill.model");
-const Comapny = require("../model/company.model");
-const Location = require("../model/location.model");
-const Representative = require("../model/representative.model");
-const Job = require("../model/job.model");
+const GraphQLDate = require('./date.scalar');
+const Skill = require('../model/skill.model');
+const Comapny = require('../model/company.model');
+const Location = require('../model/location.model');
+const Representative = require('../model/representative.model');
+const Job = require('../model/job.model');
 
-const { jobs } = require("./fixtures/fixtures");
+const { jobs } = require('./fixtures/fixtures');
 
 const resolvers = {
   Query: {
@@ -80,9 +80,9 @@ function representativeList(_, { cid }) {
 
 function jobsList() {
   return Job.find()
-    .populate("company")
-    .populate("representative")
-    .populate("location")
+    .populate('company')
+    .populate('representative')
+    .populate('location')
     .then((jobs) => {
       return jobs.map((job) => {
         return { ...job._doc };
@@ -105,7 +105,7 @@ function jobValidate(job) {
     errors.push('Field "rate" cannot be smaller than 1.');
   }
   if (errors.length > 0) {
-    throw new UserInputError("Invalid input(s)", { errors });
+    throw new UserInputError('Invalid input(s)', { errors });
   }
 }
 

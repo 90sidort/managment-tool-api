@@ -1,17 +1,17 @@
-require("dotenv").config();
-const express = require("express");
-const fs = require("fs");
-const { ApolloServer } = require("apollo-server-express");
-const mongoose = require("mongoose");
+require('dotenv').config();
+const express = require('express');
+const fs = require('fs');
+const { ApolloServer } = require('apollo-server-express');
+const mongoose = require('mongoose');
 
-const resolvers = require("./graphql/resolvers");
+const resolvers = require('./graphql/resolvers');
 
 const mongoURI = `mongodb://${process.env.USER_DB}:${process.env.USER_DB_PASS}@127.0.0.1:27017/${process.env.USER_DB_NAME}`;
 
 const port = process.env.API_SERVER_PORT;
 
 const server = new ApolloServer({
-  typeDefs: fs.readFileSync("./graphql/schema.graphql", "utf-8"),
+  typeDefs: fs.readFileSync('./graphql/schema.graphql', 'utf-8'),
   resolvers,
   formatError: (error) => {
     console.log(error);
@@ -21,7 +21,9 @@ const server = new ApolloServer({
 
 const app = express();
 
-server.applyMiddleware({ app, path: "/graphql" });
+const enableCors = process.env.ENABLE_CORS == true;
+
+server.applyMiddleware({ app, path: '/graphql', cors: enableCors });
 
 mongoose
   .connect(mongoURI, {
