@@ -21,6 +21,7 @@ const server = new ApolloServer({
 
 const app = express();
 
+// eslint-disable-next-line eqeqeq
 const enableCors = process.env.ENABLE_CORS == true;
 
 server.applyMiddleware({ app, path: '/graphql', cors: enableCors });
@@ -31,7 +32,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    app.listen(port, function () {
+    app.listen(port, () => {
       console.log(`API started on port ${port}`);
     });
   })
