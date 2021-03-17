@@ -1,8 +1,9 @@
 const { UserInputError } = require('apollo-server-express');
 const Job = require('../../model/job.model');
 
-function jobsList() {
-  return Job.find()
+function jobsList(_, { id }) {
+  const query = id ? { _id: id } : {};
+  return Job.find(query)
     .populate('company')
     .populate('representative')
     .populate('location')

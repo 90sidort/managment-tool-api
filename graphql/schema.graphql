@@ -9,7 +9,7 @@ type Job {
   currency: CurrencyType!
   description: String!
   skills: [Skill]
-  agent: String
+  agent: Representative
   representative: Representative!
   company: Company!
   start: GraphQLDate!
@@ -101,7 +101,8 @@ enum CurrencyType {
 }
 
 type Query {
-  job: [Job]
+  job(id: ID): [Job]
+  # singleJob(_id: ID): Job
   location(cid: ID): [Location]
   representative(cid: ID): [Representative]
   company: [Company]
