@@ -1,8 +1,10 @@
 const { UserInputError } = require('apollo-server-express');
-const Job = require('../../model/job.model');
 
-function jobsList(_, { id }) {
-  const query = id ? { _id: id } : {};
+const Job = require('../../model/job.model');
+const cleanObject = require('../../utils/objectQueryClean');
+
+async function jobsList(_, args) {
+  const query = await cleanObject(args);
   return Job.find(query)
     .populate('company')
     .populate('representative')
