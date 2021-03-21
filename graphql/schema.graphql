@@ -101,7 +101,14 @@ enum CurrencyType {
 }
 
 type Query {
-  job(_id: ID, currency: String, status: String): [Job]
+  job(
+    _id: ID,
+    currency: String,
+    status: String,
+    company: ID,
+    personMin: Int,
+    personMax: Int,
+    title: String): [Job]
   location(cid: ID): [Location]
   representative(cid: ID): [Representative]
   company: [Company]

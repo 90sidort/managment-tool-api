@@ -5,6 +5,18 @@ const cleanObject = require('../../utils/objectQueryClean');
 
 async function jobsList(_, args) {
   const query = await cleanObject(args);
+  if (query.personMin || query.personMax) {
+    query.personel = {};
+    if (query.personMin) query.personel.$gte = query.personMin;
+    if (query.personMax) query.personel.$lte = query.personMax;
+    delete query.personMin;
+    delete query.personMax;
+  }
+  if (query.title) {
+    const text = query.title;
+    // eslint-disable-next-line prettier/prettier
+    query.title = { "$regex": text, "$options": 'i' };
+  }
   return Job.find(query)
     .populate('company')
     .populate('representative')
