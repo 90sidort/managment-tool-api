@@ -21,6 +21,7 @@ async function jobsList(_, args) {
     .populate('company')
     .populate('representative')
     .populate('location')
+    .populate('skills')
     .then((jobs) => jobs.map((job) => ({ ...job._doc })))
     .catch((err) => {
       throw err;

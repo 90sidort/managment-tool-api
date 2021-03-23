@@ -7,7 +7,7 @@ const jobSchema = new mongoose.Schema({
   rate: { type: Number, required: true },
   currency: { type: String, required: true },
   description: { type: String, required: true },
-  skills: [{ type: String }],
+  skills: [{ type: mongoose.Schema.ObjectId, ref: 'Skill' }],
   agent: { type: String },
   representative: { type: mongoose.Schema.ObjectId, ref: 'Representative' },
   company: { type: mongoose.Schema.ObjectId, ref: 'Company' },

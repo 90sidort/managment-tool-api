@@ -25,7 +25,7 @@ input JobInput {
   rate: Float!
   currency: CurrencyType!
   description: String!
-  skills: [SkillInput]
+  skills: [String]
   agent: String
   representative: String!
   company: String!
