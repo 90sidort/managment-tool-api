@@ -2,7 +2,7 @@ const GraphQLDate = require('./date.scalar');
 
 const { skillsList, skillAdd } = require('./handlers/skill.handler');
 const { companiesList, companyAdd } = require('./handlers/company.handler');
-const { jobsList, jobAdd } = require('./handlers/job.handler');
+const { jobsList, jobAdd, updateJob } = require('./handlers/job.handler');
 const { locationsList, locationAdd } = require('./handlers/location.handler');
 const { representativeList, repAdd } = require('./handlers/representative.handler');
 
@@ -20,6 +20,7 @@ const resolvers = {
     companyAdd,
     locationAdd,
     repAdd,
+    updateJob,
   },
   GraphQLDate,
 };

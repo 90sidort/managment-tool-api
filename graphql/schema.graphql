@@ -120,4 +120,5 @@ type Mutation {
   companyAdd(company: CompanyInput!): Company!
   locationAdd(location: LocationInput!): Location!
   repAdd(representative: RepresentativeInput!): Representative!
+  updateJob(_id: ID, changes: JobInput!): Job!
 }

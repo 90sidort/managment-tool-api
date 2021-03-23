@@ -43,6 +43,26 @@ function jobValidate(job) {
   }
 }
 
+async function updateJob(_, args) {
+  const updates = args.changes;
+  jobValidate(updates);
+  const job = await Job.findById(args._id);
+  job.company = updates.company;
+  job.representative = updates.representative;
+  job.location = updates.location;
+  job.title = updates.title;
+  job.personel = updates.personel;
+  job.rate = updates.rate;
+  job.currency = updates.currency;
+  job.description = updates.description;
+  job.skills = updates.skills;
+  job.status = updates.status;
+  job.start = updates.start;
+  job.end = updates.end;
+  await job.save();
+  return job;
+}
+
 function jobAdd(_, { job }) {
   jobValidate(job);
   const newJob = new Job({
@@ -67,4 +87,4 @@ function jobAdd(_, { job }) {
     });
 }
 
-module.exports = { jobsList, jobValidate, jobAdd };
+module.exports = { jobsList, jobValidate, jobAdd, updateJob };
