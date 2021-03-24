@@ -44,6 +44,15 @@ function jobValidate(job) {
   }
 }
 
+async function jobDelete(_, { _id }) {
+  const job = await Job.findById(_id);
+  if (job) {
+    job.remove();
+    return true;
+  }
+  return false;
+}
+
 async function updateJob(_, args) {
   const updates = args.changes;
   jobValidate(updates);
@@ -88,4 +97,4 @@ function jobAdd(_, { job }) {
     });
 }
 
-module.exports = { jobsList, jobValidate, jobAdd, updateJob };
+module.exports = { jobsList, jobValidate, jobAdd, updateJob, jobDelete };

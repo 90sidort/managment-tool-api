@@ -121,4 +121,5 @@ type Mutation {
   locationAdd(location: LocationInput!): Location!
   repAdd(representative: RepresentativeInput!): Representative!
   updateJob(_id: ID, changes: JobInput!): Job!
+  jobDelete(_id: ID!): Boolean!
 }
