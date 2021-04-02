@@ -85,6 +85,15 @@ input SkillInput {
   name: String!
 }
 
+type JobCount {
+  New: Int
+  Assigned: Int
+  Negotiation: Int
+  Signed: Int
+  Ongoing: Int
+  Closed: Int
+}
+
 enum StatusType {
   New
   Assigned
@@ -113,6 +122,7 @@ type Query {
   representative(cid: ID): [Representative]
   company: [Company]
   skill: [Skill]
+  jobCount(status: StatusType): [JobCount!]!
 }
 type Mutation {
   jobAdd(job: JobInput!): Job!

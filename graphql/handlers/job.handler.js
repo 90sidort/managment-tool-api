@@ -3,6 +3,24 @@ const { UserInputError } = require('apollo-server-express');
 const Job = require('../../model/job.model');
 const cleanObject = require('../../utils/objectQueryClean');
 
+async function jobCount() {
+  const counter = await Job.aggregate([
+    {
+      $group: {
+        _id: '$status',
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+
+  const stats = {};
+  counter.forEach((result) => {
+    const status = result._id;
+    stats[status] = result.count;
+  });
+  return [stats];
+}
+
 async function jobsList(_, args) {
   const query = await cleanObject(args);
   if (query.personMin || query.personMax) {
@@ -97,4 +115,4 @@ function jobAdd(_, { job }) {
     });
 }
 
-module.exports = { jobsList, jobValidate, jobAdd, updateJob, jobDelete };
+module.exports = { jobsList, jobValidate, jobAdd, updateJob, jobDelete, jobCount };
