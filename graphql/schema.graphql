@@ -94,6 +94,11 @@ type JobCount {
   Closed: Int
 }
 
+type JobsPagination {
+  jobs: [Job!]!
+  pages: Int
+}
+
 enum StatusType {
   New
   Assigned
@@ -117,7 +122,8 @@ type Query {
     company: ID,
     personMin: Int,
     personMax: Int,
-    title: String): [Job]
+    title: String,
+    page: Int = 1): JobsPagination
   location(cid: ID): [Location]
   representative(cid: ID): [Representative]
   company: [Company]

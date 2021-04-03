@@ -3,7 +3,12 @@ const cleanObject = async function (obj) {
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < propNames.length; i++) {
     const propName = propNames[i];
-    if (obj[propName] === null || obj[propName] === undefined || obj[propName] === '') {
+    if (
+      obj[propName] === null ||
+      obj[propName] === undefined ||
+      obj[propName] === '' ||
+      propName === 'page'
+    ) {
       // eslint-disable-next-line no-param-reassign
       delete obj[propName];
     }
