@@ -37,7 +37,7 @@ async function jobsList(_, args) {
     query.title = { "$regex": text, "$options": 'i' };
   }
   const jobsListing = await Job.find(query)
-    .sort({ created: 1 })
+    .sort({ created: -1 })
     .skip(records * (page - 1))
     .limit(records)
     .populate('company')
