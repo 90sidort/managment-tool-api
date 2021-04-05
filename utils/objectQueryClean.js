@@ -7,7 +7,8 @@ const cleanObject = async function (obj) {
       obj[propName] === null ||
       obj[propName] === undefined ||
       obj[propName] === '' ||
-      propName === 'page'
+      propName === 'page' ||
+      propName === 'records'
     ) {
       // eslint-disable-next-line no-param-reassign
       delete obj[propName];

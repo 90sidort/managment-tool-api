@@ -22,8 +22,7 @@ async function jobCount() {
 }
 
 async function jobsList(_, args) {
-  const pageSize = 5;
-  const { page } = args;
+  const { page, records } = args;
   const query = await cleanObject(args);
   if (query.personMin || query.personMax) {
     query.personel = {};
@@ -39,8 +38,8 @@ async function jobsList(_, args) {
   }
   const jobsListing = await Job.find(query)
     .sort({ created: 1 })
-    .skip(pageSize * (page - 1))
-    .limit(pageSize)
+    .skip(records * (page - 1))
+    .limit(records)
     .populate('company')
     .populate('representative')
     .populate('location')
@@ -50,8 +49,8 @@ async function jobsList(_, args) {
       throw err;
     });
   const totalCount = await Job.count(query);
-  const pages = Math.ceil(totalCount / pageSize);
-  return { jobs: jobsListing, pages };
+  const pages = Math.ceil(totalCount / records);
+  return { jobs: jobsListing, pages, records };
 }
 
 function jobValidate(job) {
