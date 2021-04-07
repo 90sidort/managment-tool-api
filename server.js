@@ -17,6 +17,9 @@ const server = new ApolloServer({
     console.log(error);
     return error;
   },
+  context: ({ req }) =>
+    // console.log(req.headers);
+    true,
 });
 
 const app = express();

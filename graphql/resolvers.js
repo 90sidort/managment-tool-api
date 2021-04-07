@@ -5,7 +5,7 @@ const { companiesList, companyAdd } = require('./handlers/company.handler');
 const { jobsList, jobAdd, updateJob, jobDelete, jobCount } = require('./handlers/job.handler');
 const { locationsList, locationAdd } = require('./handlers/location.handler');
 const { representativeList, repAdd } = require('./handlers/representative.handler');
-const { userAdd, getUsers, updateUser, deleteUser } = require('./handlers/user.handler');
+const { userAdd, getUsers, updateUser, deleteUser, login } = require('./handlers/user.handler');
 
 const resolvers = {
   Query: {
@@ -16,6 +16,7 @@ const resolvers = {
     skill: skillsList,
     company: companiesList,
     jobCount: jobCount,
+    login,
   },
   Mutation: {
     jobAdd,

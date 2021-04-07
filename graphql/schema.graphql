@@ -42,6 +42,15 @@ type User {
   phone: String!
   position: String!
   email: String!
+  password: String
+}
+
+input CreateUserInput {
+  name: String!
+  surname: String!
+  phone: String!
+  position: String!
+  email: String!
   password: String!
 }
 
@@ -51,7 +60,12 @@ input UserInput {
   phone: String!
   position: String!
   email: String!
-  password: String!
+}
+
+type AuthData {
+  userId: ID!
+  token: String!
+  tokenExpiration: Int!
 }
 
 type Location {
@@ -147,6 +161,7 @@ type Query {
     records: Int = 5
   ): JobsPagination
   user(_id: ID): [User!]
+  login(password: String!, email:String!): AuthData!
   location(cid: ID): [Location]
   representative(cid: ID): [Representative]
   company: [Company]
@@ -154,7 +169,7 @@ type Query {
   jobCount(status: StatusType): [JobCount!]!
 }
 type Mutation {
-  userAdd(user: UserInput!): User!
+  userAdd(user: CreateUserInput!): User!
   jobAdd(job: JobInput!): Job!
   skillAdd(skill: SkillInput!): Skill!
   companyAdd(company: CompanyInput!): Company!
