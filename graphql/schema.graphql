@@ -35,6 +35,25 @@ input JobInput {
   status: StatusType = New
 }
 
+type User {
+  _id: ID!
+  name: String!
+  surname: String!
+  phone: String!
+  position: String!
+  email: String!
+  password: String!
+}
+
+input UserInput {
+  name: String!
+  surname: String!
+  phone: String!
+  position: String!
+  email: String!
+  password: String!
+}
+
 type Location {
   _id: ID!
   cid: ID!
@@ -127,6 +146,7 @@ type Query {
     page: Int = 1,
     records: Int = 5
   ): JobsPagination
+  user(_id: ID): [User!]
   location(cid: ID): [Location]
   representative(cid: ID): [Representative]
   company: [Company]
@@ -134,11 +154,14 @@ type Query {
   jobCount(status: StatusType): [JobCount!]!
 }
 type Mutation {
+  userAdd(user: UserInput!): User!
   jobAdd(job: JobInput!): Job!
   skillAdd(skill: SkillInput!): Skill!
   companyAdd(company: CompanyInput!): Company!
   locationAdd(location: LocationInput!): Location!
   repAdd(representative: RepresentativeInput!): Representative!
   updateJob(_id: ID, changes: JobInput!): Job!
+  updateUser(_id: ID, changes: UserInput!): User!
   jobDelete(_id: ID!): Boolean!
+  deleteUser(_id: ID!): Boolean!
 }
