@@ -5,9 +5,9 @@ const { ApolloServer } = require('apollo-server-express');
 const mongoose = require('mongoose');
 
 const resolvers = require('./graphql/resolvers');
+const isAuth = require('./middleware/auth');
 
 const mongoURI = `mongodb://${process.env.USER_DB}:${process.env.USER_DB_PASS}@127.0.0.1:27017/${process.env.USER_DB_NAME}`;
-
 const port = process.env.API_SERVER_PORT;
 
 const server = new ApolloServer({
@@ -17,12 +17,11 @@ const server = new ApolloServer({
     console.log(error);
     return error;
   },
-  context: ({ req }) =>
-    // console.log(req.headers);
-    true,
+  context: ({ req }) => ({ isAuth: req.isAuth, userId: req.userId }),
 });
 
 const app = express();
+app.use(isAuth);
 
 // eslint-disable-next-line eqeqeq
 const enableCors = process.env.ENABLE_CORS == true;

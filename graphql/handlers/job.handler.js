@@ -21,37 +21,46 @@ async function jobCount() {
   return [stats];
 }
 
-async function jobsList(_, args) {
-  const { page, records } = args;
-  const query = await cleanObject(args);
-  if (query.personMin || query.personMax) {
-    query.personel = {};
-    if (query.personMin) query.personel.$gte = query.personMin;
-    if (query.personMax) query.personel.$lte = query.personMax;
-    delete query.personMin;
-    delete query.personMax;
+async function jobsList(_, args, context) {
+  // if (context.isAuth) {
+  try {
+    const { page, records } = args;
+    const query = await cleanObject(args);
+    if (query.personMin || query.personMax) {
+      query.personel = {};
+      if (query.personMin) query.personel.$gte = query.personMin;
+      if (query.personMax) query.personel.$lte = query.personMax;
+      delete query.personMin;
+      delete query.personMax;
+    }
+    if (query.title) {
+      const text = query.title;
+      // eslint-disable-next-line prettier/prettier
+        query.title = { "$regex": text, "$options": 'i' };
+    }
+    const jobsListing = await Job.find(query)
+      .sort({ created: -1 })
+      .skip(records * (page - 1))
+      .limit(records)
+      .populate('company')
+      .populate('representative')
+      .populate('location')
+      .populate('skills')
+      .then((jobs) => jobs.map((job) => ({ ...job._doc })))
+      .catch((err) => {
+        throw err;
+      });
+    const totalCount = await Job.count(query);
+    const pages = Math.ceil(totalCount / records);
+    return { jobs: jobsListing, pages, records };
+  } catch (e) {
+    throw new Error('Server error.');
   }
-  if (query.title) {
-    const text = query.title;
-    // eslint-disable-next-line prettier/prettier
-    query.title = { "$regex": text, "$options": 'i' };
-  }
-  const jobsListing = await Job.find(query)
-    .sort({ created: -1 })
-    .skip(records * (page - 1))
-    .limit(records)
-    .populate('company')
-    .populate('representative')
-    .populate('location')
-    .populate('skills')
-    .then((jobs) => jobs.map((job) => ({ ...job._doc })))
-    .catch((err) => {
-      throw err;
-    });
-  const totalCount = await Job.count(query);
-  const pages = Math.ceil(totalCount / records);
-  return { jobs: jobsListing, pages, records };
 }
+// else {
+//   throw new Error('You need to be logged in.');
+// }
+// }
 
 function jobValidate(job) {
   const errors = [];
