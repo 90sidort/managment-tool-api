@@ -3,8 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../../model/user.model');
 
-async function userAdd(_, { user }, context) {
-  if (!context.isAuth) throw new Error('You need to be logged in.');
+async function userAdd(_, { user }) {
   try {
     const userExists = await User.findOne({ email: user.email });
     if (userExists) {

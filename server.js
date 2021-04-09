@@ -1,18 +1,17 @@
 require('dotenv').config();
 const express = require('express');
-const fs = require('fs');
 const { ApolloServer } = require('apollo-server-express');
 const mongoose = require('mongoose');
 
-const resolvers = require('./graphql/resolvers');
+// const resolvers = require('./graphql/resolvers');
+const schema = require('./graphql/schema');
 const isAuth = require('./middleware/auth');
 
 const mongoURI = `mongodb://${process.env.USER_DB}:${process.env.USER_DB_PASS}@127.0.0.1:27017/${process.env.USER_DB_NAME}`;
 const port = process.env.API_SERVER_PORT;
 
 const server = new ApolloServer({
-  typeDefs: fs.readFileSync('./graphql/schema.graphql', 'utf-8'),
-  resolvers,
+  schema,
   formatError: (error) => {
     console.log(error);
     return error;
