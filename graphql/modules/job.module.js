@@ -6,8 +6,18 @@ const {
   companyDelete,
 } = require('../handlers/company.handler');
 const { jobsList, jobAdd, updateJob, jobDelete, jobCount } = require('../handlers/job.handler');
-const { locationsList, locationAdd } = require('../handlers/location.handler');
-const { representativeList, repAdd } = require('../handlers/representative.handler');
+const {
+  locationsList,
+  locationAdd,
+  locationUpdate,
+  locationDelete,
+} = require('../handlers/location.handler');
+const {
+  representativeList,
+  repAdd,
+  representativeUpdate,
+  representativeDelete,
+} = require('../handlers/representative.handler');
 const GraphQLDate = require('../date.scalar');
 
 const typeDefJob = `
@@ -42,6 +52,10 @@ const typeDefJob = `
         skillDelete(_id: ID!): Boolean!
         companyUpdate(_id: ID!, name: String!): Company!
         companyDelete(_id: ID!): Boolean!
+        locationUpdate(_id: ID!, location: LocationInput!): Location!,
+        locationDelete(_id: ID!): Boolean!
+        representativeUpdate(_id: ID!, representative: RepresentativeInput!): Representative!
+        representativeDelete(_id: ID!): Boolean!
     }
     type Job {
         _id: ID!
@@ -167,6 +181,10 @@ const resolversJob = {
     skillDelete,
     companyUpdate,
     companyDelete,
+    locationUpdate,
+    locationDelete,
+    representativeUpdate,
+    representativeDelete,
   },
   GraphQLDate,
 };

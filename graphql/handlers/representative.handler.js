@@ -34,26 +34,26 @@ function representativeList(_, { cid }, context) {
   }
 }
 
-function representativeUpdate(_, { cid, name, email, phone }, context) {
+async function representativeUpdate(_, { _id, representative: { name, email, phone } }, context) {
   if (!context.isAuth) throw new Error('You need to be logged in.');
   try {
-    const representative = Representative.find({ cid });
+    const representative = await Representative.findById(_id);
     representative.name = name;
     representative.email = email;
     representative.phone = phone;
-    representative.save();
+    await representative.save();
     return representative;
   } catch (err) {
     throw new Error(err);
   }
 }
 
-function representativeDelete(_, { cid }, context) {
+async function representativeDelete(_, { _id }, context) {
   if (!context.isAuth) throw new Error('You need to be logged in.');
   try {
-    const representative = Representative.find({ cid });
+    const representative = await Representative.findById(_id);
     if (!representative) throw new Error("Couldn't find representative.");
-    representative.remove();
+    await representative.remove();
     return true;
   } catch (err) {
     throw new Error(err);

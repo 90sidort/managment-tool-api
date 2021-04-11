@@ -35,27 +35,28 @@ function locationsList(_, { cid }, context) {
   }
 }
 
-function locationUpdate(_, { cid, city, address, country, postcode }, context) {
+async function locationUpdate(_, { _id, location: { city, address, country, postcode } }, context) {
   if (!context.isAuth) throw new Error('You need to be logged in.');
   try {
-    const location = Location.find({ cid });
+    const location = await Location.findById(_id);
+    console.log(location);
     location.city = city;
     location.address = address;
     location.country = country;
     location.postcode = postcode;
-    location.save();
+    await location.save();
     return location;
   } catch (err) {
     throw new Error(err);
   }
 }
 
-function locationDelete(_, { cid }, context) {
+async function locationDelete(_, { _id }, context) {
   if (!context.isAuth) throw new Error('You need to be logged in.');
   try {
-    const location = Location.find({ cid });
+    const location = await Location.findById(_id);
     if (!location) throw new Error("Couldn't find location.");
-    location.remove();
+    await location.remove();
     return true;
   } catch (err) {
     throw new Error(err);
