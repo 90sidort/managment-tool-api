@@ -1,10 +1,11 @@
 const Skill = require('../../model/skill.model');
+const Job = require('../../model/job.model');
 
-async function skillAdd(_, { skill }, context) {
+async function skillAdd(_, args, context) {
   if (!context.isAuth) throw new Error('You need to be logged in.');
   try {
     const newSkill = new Skill({
-      name: skill.name,
+      name: args.skill.name,
     });
     return newSkill
       .save()
@@ -48,7 +49,9 @@ async function skillDelete(_, { _id }, context) {
   try {
     const skill = await Skill.findById(_id);
     if (!skill) throw new Error(`Unable to find this skill`);
-    await skill.remove();
+    const skillUsed = await Job.exists({ skills: _id });
+    if (skillUsed === false) await skill.remove();
+    else return false;
     return true;
   } catch (err) {
     throw new Error(err);
