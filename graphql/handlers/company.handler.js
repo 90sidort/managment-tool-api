@@ -5,6 +5,8 @@ async function companyAdd(_, { company }, context) {
   try {
     const newCompany = new Company({
       name: company.name,
+      description: company.description,
+      industry: company.industry,
     });
     return newCompany
       .save()
@@ -31,11 +33,13 @@ async function companiesList(_, { _id }, context) {
   }
 }
 
-async function companyUpdate(_, { _id, name }, context) {
+async function companyUpdate(_, { _id, company: { name, description, industry } }, context) {
   if (!context.isAuth) throw new Error('You need to be logged in.');
   try {
     const company = await Company.findById(_id);
     company.name = name;
+    company.description = description;
+    company.industry = industry;
     await company.save();
     return company;
   } catch (err) {

@@ -50,7 +50,7 @@ const typeDefJob = `
         jobDelete(_id: ID!): Boolean!
         skillUpdate(_id: ID!, name: String!): Skill!
         skillDelete(_id: ID!): Boolean!
-        companyUpdate(_id: ID!, name: String!): Company!
+        companyUpdate(_id: ID!, company: CompanyInput!): Company!
         companyDelete(_id: ID!): Boolean!
         locationUpdate(_id: ID!, location: LocationInput!): Location!,
         locationDelete(_id: ID!): Boolean!
@@ -121,9 +121,14 @@ const typeDefJob = `
     type Company {
         _id: ID!
         name: String!
+        description: String!
+        industry: IndustryType!
     }
     input CompanyInput {
         name: String!
+        description: String!
+        description: String!
+        industry: IndustryType!
     }
     type Skill {
         _id: ID!
@@ -157,6 +162,11 @@ const typeDefJob = `
         GBP
         PLN
         EUR
+    }
+    enum IndustryType{
+        Agriculture
+        Manufacturing
+        Services
     }
 `;
 
