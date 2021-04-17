@@ -1,4 +1,5 @@
 const Company = require('../../model/company.model');
+const Job = require('../../model/job.model');
 
 async function companyAdd(_, { company }, context) {
   if (!context.isAuth) throw new Error('You need to be logged in.');
@@ -52,7 +53,9 @@ async function companyDelete(_, { _id }, context) {
   try {
     const company = await Company.findById(_id);
     if (!company) throw new Error("Couldn't find company.");
-    await company.remove();
+    const companyUsed = await Job.exists({ company: _id });
+    if (companyUsed === false) await company.remove();
+    else return false;
     return true;
   } catch (err) {
     throw new Error(err);
