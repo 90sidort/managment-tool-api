@@ -39,7 +39,6 @@ async function locationUpdate(_, { _id, location: { city, address, country, post
   if (!context.isAuth) throw new Error('You need to be logged in.');
   try {
     const location = await Location.findById(_id);
-    console.log(location);
     location.city = city;
     location.address = address;
     location.country = country;

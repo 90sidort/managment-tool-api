@@ -1,4 +1,5 @@
 const Representative = require('../../model/representative.model');
+const Job = require('../../model/job.model');
 
 function repAdd(_, { representative }, context) {
   if (!context.isAuth) throw new Error('You need to be logged in.');
@@ -53,7 +54,9 @@ async function representativeDelete(_, { _id }, context) {
   try {
     const representative = await Representative.findById(_id);
     if (!representative) throw new Error("Couldn't find representative.");
-    await representative.remove();
+    const repUsed = await Job.exists({ representative: _id });
+    if (repUsed === false) await representative.remove();
+    else return false;
     return true;
   } catch (err) {
     throw new Error(err);
