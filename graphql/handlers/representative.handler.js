@@ -21,15 +21,20 @@ function repAdd(_, { representative }, context) {
   }
 }
 
-function representativeList(_, { cid }, context) {
+async function representativeList(_, { cid, _id }, context) {
   if (!context.isAuth) throw new Error('You need to be logged in.');
   try {
-    const query = cid ? { cid } : {};
-    return Representative.find(query)
-      .then((reps) => reps.map((rep) => ({ ...rep._doc })))
-      .catch((err) => {
-        throw err;
-      });
+    if (!_id) {
+      const query = cid ? { cid } : {};
+      return Representative.find(query)
+        .then((reps) => reps.map((rep) => ({ ...rep._doc })))
+        .catch((err) => {
+          throw err;
+        });
+    }
+    const representative = await Representative.find({ _id });
+    if (!representative) throw new Error('Representative not found.');
+    return representative;
   } catch (err) {
     throw new Error(err);
   }

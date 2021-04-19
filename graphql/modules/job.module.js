@@ -35,7 +35,7 @@ const typeDefJob = `
             records: Int = 5
         ): JobsPagination
         location(cid: ID): [Location]
-        representative(cid: ID): [Representative]
+        representative(cid: ID, _id: ID): [Representative]
         company(_id: ID): [Company]
         skill: [Skill]
         jobCount(status: StatusType): [JobCount!]!
