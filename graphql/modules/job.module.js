@@ -34,7 +34,7 @@ const typeDefJob = `
             page: Int = 1,
             records: Int = 5
         ): JobsPagination
-        location(cid: ID): [Location]
+        location(cid: ID, _id: ID): [Location]
         representative(cid: ID, _id: ID): [Representative]
         company(_id: ID): [Company]
         skill: [Skill]

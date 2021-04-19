@@ -1,4 +1,5 @@
 const Location = require('../../model/location.model');
+const Job = require('../../model/job.model');
 
 function locationAdd(_, { location }, context) {
   if (!context.isAuth) throw new Error('You need to be logged in.');
@@ -21,15 +22,20 @@ function locationAdd(_, { location }, context) {
   }
 }
 
-function locationsList(_, { cid }, context) {
+async function locationsList(_, { cid, _id }, context) {
   if (!context.isAuth) throw new Error('You need to be logged in.');
   try {
-    const query = cid ? { cid } : {};
-    return Location.find(query)
-      .then((locations) => locations.map((location) => ({ ...location._doc })))
-      .catch((err) => {
-        throw err;
-      });
+    if (!_id) {
+      const query = cid ? { cid } : {};
+      return Location.find(query)
+        .then((locations) => locations.map((location) => ({ ...location._doc })))
+        .catch((err) => {
+          throw err;
+        });
+    }
+    const location = await Location.find({ _id });
+    if (!location) throw new Error('Location not found.');
+    return location;
   } catch (err) {
     throw new Error(err);
   }
@@ -55,7 +61,9 @@ async function locationDelete(_, { _id }, context) {
   try {
     const location = await Location.findById(_id);
     if (!location) throw new Error("Couldn't find location.");
-    await location.remove();
+    const locationUsed = await Job.exists({ location: _id });
+    if (locationUsed === false) await location.remove();
+    else return false;
     return true;
   } catch (err) {
     throw new Error(err);
