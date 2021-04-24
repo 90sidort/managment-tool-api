@@ -3,7 +3,6 @@ const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const mongoose = require('mongoose');
 
-// const resolvers = require('./graphql/resolvers');
 const schema = require('./graphql/schema');
 const isAuth = require('./middleware/auth');
 
