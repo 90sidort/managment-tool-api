@@ -9,7 +9,7 @@ const {
   UserInputUpdate,
   userDeleted,
 } = require('./fixtures/user.fixture');
-const { GET_USERS, ADD_USER, UPDATE_USER, DELETE_USER } = require('./queries/user.queries');
+const { GET_USERS, ADD_USER, UPDATE_USER, DELETE_USER, LOGIN } = require('./queries/user.queries');
 const { testClient, connectToDb, dropTestDb, closeDbConnection } = require('./testConfig');
 
 const { query, mutate } = testClient;
@@ -137,9 +137,45 @@ describe('Test queries and mutations for users', () => {
     UserInputUpdate.name = null;
     const userTest = await new User(newUserFour).save();
     const response = await mutate({
-      query: UPDATE_USER,
+      mutation: UPDATE_USER,
       variables: { _id: userTest._id, changes: UserInputUpdate },
     });
     expect(response).toHaveProperty('errors');
+  });
+
+  it('Should be possible to log in', async () => {
+    await dropTestDb();
+    UserInput.user.password = 'testtest882';
+    UserInput.user.email = 'shumowski.taras@test.com';
+    await mutate({ mutation: ADD_USER, variables: UserInput });
+    const response = await query({
+      query: LOGIN,
+      variables: { password: UserInput.user.password, email: UserInput.user.email },
+    });
+    expect(response.data.login).toEqual(
+      expect.objectContaining({
+        token: expect.any(String),
+        tokenExpiration: expect.any(Number),
+        userId: expect.any(String),
+      })
+    );
+  });
+
+  it('Should notify when user does not exist', async () => {
+    const response = await query({
+      query: LOGIN,
+      variables: { password: 'invalid', email: 'invalid' },
+    });
+    expect(response.errors[0].message).toEqual('Error: User does not exists!');
+  });
+
+  it('Should notify when password invalid', async () => {
+    await dropTestDb();
+    await mutate({ mutation: ADD_USER, variables: UserInput });
+    const response = await query({
+      query: LOGIN,
+      variables: { password: 'invalid', email: UserInput.user.email },
+    });
+    expect(response.errors[0].message).toEqual('Error: Invalid password.');
   });
 });

@@ -47,9 +47,20 @@ const DELETE_USER = gql`
   }
 `;
 
+const LOGIN = gql`
+  query loginUser($password: String!, $email: String!) {
+    login(password: $password, email: $email) {
+      token
+      tokenExpiration
+      userId
+    }
+  }
+`;
+
 module.exports = {
   GET_USERS,
   ADD_USER,
   UPDATE_USER,
   DELETE_USER,
+  LOGIN,
 };
