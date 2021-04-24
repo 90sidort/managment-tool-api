@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon -w server -e js,graphql server.js",
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "engines": {
     "node": ">=12.18.3"

@@ -1,6 +1,16 @@
 {
   "extends": ["airbnb", "prettier", "plugin:node/recommended"],
   "plugins": ["prettier"],
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.js"
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ],
   "rules": {
     "prettier/prettier": "error",
     "no-unused-vars": "warn",

@@ -68,6 +68,7 @@ async function updateUser(_, args, context) {
   try {
     const updates = args.changes;
     const user = await User.findById(args._id);
+    if (!user) throw new Error('User does not exist!');
     user.name = updates.name;
     user.surname = updates.surname;
     user.phone = updates.phone;
