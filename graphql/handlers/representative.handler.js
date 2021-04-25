@@ -44,6 +44,7 @@ async function representativeUpdate(_, { _id, representative: { name, email, pho
   if (!context.isAuth) throw new Error('You need to be logged in.');
   try {
     const representative = await Representative.findById(_id);
+    if (!representative) throw new Error('Representative not found.');
     representative.name = name;
     representative.email = email;
     representative.phone = phone;
