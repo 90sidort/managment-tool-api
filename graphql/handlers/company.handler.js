@@ -38,6 +38,7 @@ async function companyUpdate(_, { _id, company: { name, description, industry } 
   if (!context.isAuth) throw new Error('You need to be logged in.');
   try {
     const company = await Company.findById(_id);
+    if (!company) throw new Error('Company not found.');
     company.name = name;
     company.description = description;
     company.industry = industry;

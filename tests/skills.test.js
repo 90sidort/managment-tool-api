@@ -38,7 +38,7 @@ describe('Test queries and mutations for skills', () => {
     });
   });
 
-  it('Should not be impossible to create skill with invalid data', async () => {
+  it('Should be impossible to create skill with invalid data', async () => {
     const response = await mutate({ mutation: ADD_SKILL, variables: { skill: { name: null } } });
     expect(response).toHaveProperty('errors');
   });
