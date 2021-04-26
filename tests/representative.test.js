@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const Representative = require('../model/representative.model');
 const {
   cidOne,
-  cidTwo,
   testRepOne,
   testRepTwo,
   testRepThree,
