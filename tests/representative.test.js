@@ -14,7 +14,7 @@ const { testClient, connectToDb, dropTestDb, closeDbConnection } = require('./te
 
 const { query, mutate } = testClient;
 
-describe('Test queries and mutations for skills', () => {
+describe('Test queries and mutations for representatives', () => {
   beforeAll(async () => {
     await connectToDb();
     await dropTestDb();

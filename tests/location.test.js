@@ -6,7 +6,6 @@ const {
   testLocOne,
   testLocTwo,
   testLocThree,
-  cidOne,
   validLocInput,
 } = require('./fixtures/location.fixture');
 const { GET_LOC, UPDATE_LOC, DELETE_LOC, CREATE_LOC } = require('./queries/location.queries');
@@ -14,7 +13,7 @@ const { testClient, connectToDb, dropTestDb, closeDbConnection } = require('./te
 
 const { query, mutate } = testClient;
 
-describe('Test queries and mutations for skills', () => {
+describe('Test queries and mutations for locations', () => {
   beforeAll(async () => {
     await connectToDb();
     await dropTestDb();
