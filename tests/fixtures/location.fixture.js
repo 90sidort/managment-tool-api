@@ -27,10 +27,32 @@ const testLocThree = {
   postcode: 'Test Postcode3',
 };
 
+const validLocInput = {
+  location: {
+    cid: cidOne,
+    city: 'TestCity4',
+    address: 'Test Address4',
+    country: 'Test Country4',
+    postcode: 'Test Postcode4',
+  },
+};
+
+const invalidLocInput = {
+  location: {
+    cid: cidOne,
+    city: null,
+    address: 'Test Address4',
+    country: 'Test Country4',
+    postcode: 'Test Postcode4',
+  },
+};
+
 module.exports = {
   testLocOne,
   testLocTwo,
   testLocThree,
   cidOne,
   cidTwo,
+  validLocInput,
+  invalidLocInput,
 };
