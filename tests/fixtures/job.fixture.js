@@ -68,6 +68,60 @@ const testJobTwo = {
   created: new Date(),
 };
 
+const validJobInput = {
+  job: {
+    personel: 100,
+    location: mockedLocationOne._id,
+    title: 'Test Title Valid',
+    rate: 9.35,
+    currency: 'GBP',
+    description: 'Test description Valid.',
+    skills: [mockedSkillOne],
+    agent: null,
+    representative: mockedRepOne._id,
+    company: mockedCompanyOne._id,
+    start: new Date(),
+    end: new Date(),
+    status: 'Negotiation',
+    created: new Date(),
+  },
+};
+
+const invalidJobInput = {
+  job: {
+    personel: 100,
+    location: mockedLocationOne._id,
+    title: null,
+    rate: 9.35,
+    currency: 'GBP',
+    description: 'Test description Valid.',
+    skills: [mockedSkillOne],
+    agent: null,
+    representative: mockedRepOne._id,
+    company: mockedCompanyOne._id,
+    start: new Date(),
+    end: new Date(),
+    status: 'Negotiation',
+    created: new Date(),
+  },
+};
+
+const changeData = {
+  title: 'Zmieniony',
+  personel: 20,
+  rate: 10.2,
+  company: mockedCompanyOne._id,
+  representative: mockedRepOne._id,
+  location: mockedLocationOne._id,
+  currency: 'EUR',
+  description: 'Nowy, lepszy opis',
+  status: 'Negotiation',
+  start: '2021-03-01T00:00:00.000Z',
+  end: '2021-09-01T00:00:00.000Z',
+  created: '2021-03-12T23:34:03.904Z',
+  skills: null,
+};
+
 module.exports = {
   mockedCompanyOne,
   mockedLocationOne,
@@ -75,4 +129,7 @@ module.exports = {
   mockedSkillOne,
   testJobOne,
   testJobTwo,
+  validJobInput,
+  invalidJobInput,
+  changeData,
 };

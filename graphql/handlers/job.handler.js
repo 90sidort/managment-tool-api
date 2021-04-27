@@ -98,6 +98,7 @@ async function updateJob(_, args, context) {
     const updates = args.changes;
     jobValidate(updates);
     const job = await Job.findById(args._id);
+    if (!job) throw new Error('Job not found!');
     job.company = updates.company;
     job.representative = updates.representative;
     job.location = updates.location;

@@ -65,60 +65,11 @@ const GET_JOB = gql`
   }
 `;
 
-const GET_SINGLE_JOB = gql`
-  query getJob($_id: ID) {
-    job(_id: $_id) {
-      jobs {
-        _id
-        personel
-        rate
-        currency
-        description
-        skills {
-          _id
-          name
-        }
-        agent {
-          name
-          _id
-          cid
-          email
-          phone
-        }
-        representative {
-          name
-          _id
-          cid
-          email
-          phone
-        }
-        location {
-          country
-          address
-          postcode
-          city
-          cid
-          _id
-        }
-        title
-        company {
-          _id
-          name
-        }
-        status
-        start
-        end
-        created
-      }
-    }
-  }
-`;
-
 const CREATE_JOB = gql`
   mutation addNewJob($job: JobInput!) {
     jobAdd(job: $job) {
-      title
       _id
+      title
     }
   }
 `;
@@ -140,7 +91,6 @@ const UPDATE_JOB = gql`
 `;
 module.exports = {
   GET_JOB,
-  GET_SINGLE_JOB,
   DELETE_JOB,
   CREATE_JOB,
   UPDATE_JOB,
