@@ -1,4 +1,4 @@
-const { UserInputError } = require('apollo-server-express');
+const { ApolloError } = require('apollo-server-express');
 
 const Job = require('../../model/job.model');
 const cleanObject = require('../../utils/objectQueryClean');
@@ -40,7 +40,7 @@ async function jobsList(_, args, context) {
     if (query.title) {
       const text = query.title;
       // eslint-disable-next-line prettier/prettier
-      query.title = { "$regex": text, "$options": 'i' };
+      query.title = { $regex: text, $options: 'i' };
     }
     const jobsListing = await Job.find(query)
       .sort({ created: -1 })
@@ -64,8 +64,11 @@ async function jobsList(_, args, context) {
 
 function jobValidate(job) {
   const errors = [];
-  if (job.title.length < 3) {
+  if (job.title.length < 10) {
     errors.push('Field "title" must be at least 3 characters long.');
+  }
+  if (job.description.length < 20) {
+    errors.push('Field "description" must be at least 3 characters long.');
   }
   if (job.personel < 1) {
     errors.push('Field "personel" cannot be smaller than 1.');
@@ -74,7 +77,7 @@ function jobValidate(job) {
     errors.push('Field "rate" cannot be smaller than 1.');
   }
   if (errors.length > 0) {
-    throw new UserInputError('Invalid input(s)', { errors });
+    throw new ApolloError(errors);
   }
 }
 
@@ -143,7 +146,7 @@ function jobAdd(_, { job }, context) {
         throw err;
       });
   } catch (err) {
-    throw new Error(err);
+    throw new ApolloError(err);
   }
 }
 

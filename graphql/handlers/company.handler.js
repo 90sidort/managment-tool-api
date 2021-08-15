@@ -1,9 +1,13 @@
+const { ApolloError } = require('apollo-server-express');
+
 const Company = require('../../model/company.model');
 const Job = require('../../model/job.model');
+const companyValidate = require('../validators/company.validator');
 
 async function companyAdd(_, { company }, context) {
   if (!context.isAuth) throw new Error('You need to be logged in.');
   try {
+    companyValidate(company);
     const newCompany = new Company({
       name: company.name,
       description: company.description,
@@ -16,7 +20,7 @@ async function companyAdd(_, { company }, context) {
         throw err;
       });
   } catch (err) {
-    throw new Error(err);
+    throw new ApolloError(err);
   }
 }
 
